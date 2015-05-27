@@ -1,29 +1,25 @@
 module AppAnnie
   class App
-    attr_reader :raw,
-                :account,
-                :id,
-                :account_id,
-                :status,
-                :name,
-                :first_sales_date,
-                :last_sales_date,
-                :icon
+    include Request
 
-    def initialize(account, attributes)
-      @raw = attributes
-      @account = account
-      @id = attributes['app_id']
-      @name = attributes['app_name']
-      @status = attributes['status']
-      @icon = attributes['icon']
-      @first_sales_date = attributes['first_sales_date']
-      @last_sales_date = attributes['last_sales_date']
+    attr_reader :info,
+                :product_id
+
+    def initialize(account, product_id)
+      @info = account
+      @product_id = product_id
     end
 
-    def sales(options = {})
-      json = request "/v1.2/accounts/#{@account.id}/apps/#{@id}/sales", options
-      json['sales_list']
+    def account_id
+      @info['account_id']
+    end
+
+    def iaps(params = nil)
+      request "/v1.2/accounts/#{account_id}/products/#{product_id}/iaps", params
+    end
+
+    def sales(params = nil)
+      request "/v1.2/accounts/#{account_id}/products/#{product_id}/sales", params
     end
 
   end
