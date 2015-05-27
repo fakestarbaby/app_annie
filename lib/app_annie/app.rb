@@ -1,6 +1,5 @@
 module AppAnnie
   class App
-
     attr_reader :raw,
                 :account,
                 :id,
@@ -23,17 +22,8 @@ module AppAnnie
     end
 
     def sales(options = {})
-      response = AppAnnie.connection.get do |req|
-        req.headers['Authorization'] = "Bearer #{AppAnnie.api_key}"
-        req.headers['Accept'] = 'application/json'
-        req.url "/v1/accounts/#{@account.id}/apps/#{@id}/sales", options
-      end
-
-      if response.status == 200
-        JSON.parse(response.body)['sales_list']
-      else
-        ErrorResponse.raise_for(response)
-      end
+      json = request "/v1.2/accounts/#{@account.id}/apps/#{@id}/sales", options
+      json['sales_list']
     end
 
   end

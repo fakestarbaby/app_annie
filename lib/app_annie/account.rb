@@ -1,53 +1,22 @@
 module AppAnnie
   class Account
+    include Request
 
-    attr_reader :raw,
-                :id,
-                :name,
-                :status,
-                :platform,
-                :first_sales_date,
-                :last_sales_date,
-                :publisher_name
+    attr_reader :raw
 
-    def initialize(attributes)
-      @raw = attributes
-      @id = attributes['account_id']
-      @name = attributes['account_name']
-      @status = attributes['account_status']
-      @platform = attributes['platform']
-      @publisher_name = attributes['publisher_name']
-      @first_sales_date = attributes['first_sales_date']
-      @last_sales_date = attributes['last_sales_date']
+    def initialize(info)
+      @raw = info
     end
 
-    def apps(options = {})
-      response = AppAnnie.connection.get do |req|
-        req.headers['Authorization'] = "Bearer #{AppAnnie.api_key}"
-        req.headers['Accept'] = 'application/json'
-        req.url "/v1/accounts/#{id}/apps", options
-      end
-
-      if response.status == 200
-        JSON.parse(response.body)['app_list'].map { |hash| App.new(self, hash) }
-      else
-        ErrorResponse.raise_for(response)
-      end
+    def account_id
+      @raw['account_id']
     end
 
-    def sales(options = {})
-      response = AppAnnie.connection.get do |req|
-        req.headers['Authorization'] = "Bearer #{AppAnnie.api_key}"
-        req.headers['Accept'] = 'application/json'
-        req.url "/v1/accounts/#{id}/sales", options
-      end
+    # @param [Hash] params
+    def sales(params = nil)
+      data = request "/v1.2/accounts/#{account_id}/sales", params
 
-      if response.status == 200
-        JSON.parse(response.body)['sales_list']
-      else
-        ErrorResponse.raise_for(response)
-      end
+      data['sales_list']
     end
-
   end
 end
