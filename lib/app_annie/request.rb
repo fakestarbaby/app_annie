@@ -5,6 +5,7 @@ module AppAnnie
       response = AppAnnie.connection.get do |req|
         req.headers['Authorization'] = "Bearer #{AppAnnie.api_key}"
         req.headers['Accept'] = 'application/json'
+        req.options[:timeout] = 3600
         req.url url, params
       end
 
