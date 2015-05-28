@@ -12,11 +12,22 @@ module AppAnnie
       @raw['account_id']
     end
 
+    def market
+      @raw['market']
+    end
+
+    # @return [AppAnnie::App]
+    def product_api(product_id)
+      AppAnnie::App.new raw, product_id
+    end
+
+    def products(params = nil)
+      request "/v1.2/accounts/#{account_id}/products", params
+    end
+
     # @param [Hash] params
     def sales(params = nil)
-      data = request "/v1.2/accounts/#{account_id}/sales", params
-
-      data['sales_list']
+      request "/v1.2/accounts/#{account_id}/sales", params
     end
   end
 end

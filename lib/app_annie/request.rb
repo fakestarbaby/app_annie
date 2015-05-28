@@ -1,6 +1,5 @@
 module AppAnnie
   module Request
-    private
     def request(url, params = nil)
       response = AppAnnie.connection.get do |req|
         req.headers['Authorization'] = "Bearer #{AppAnnie.api_key}"

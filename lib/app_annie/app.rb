@@ -14,13 +14,12 @@ module AppAnnie
       @info['account_id']
     end
 
-    def iaps(params = nil)
+    def iap_list(params = nil)
       request "/v1.2/accounts/#{account_id}/products/#{product_id}/iaps", params
     end
 
     def sales(params = nil)
       request "/v1.2/accounts/#{account_id}/products/#{product_id}/sales", params
     end
-
   end
 end
