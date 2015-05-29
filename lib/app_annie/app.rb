@@ -3,17 +3,24 @@ module AppAnnie
     include Request
 
     attr_reader :info,
-                :product_id
+                :product_id,
+                :asset
 
     def initialize(account, product)
       @info = account
       @product = product
+
+      @asset = 'app'
 
       @product_id = product['product_id']
     end
 
     def account_id
       @info['account_id']
+    end
+
+    def vertical
+      @info['vertical']
     end
 
     def market
@@ -29,14 +36,12 @@ module AppAnnie
     end
 
     def ranks(params = nil)
-      raise MissingArgument, 'Param :vertical is required' unless params.has_key? :vertical
-      raise MissingArgument, 'Param :asset is required' unless params.has_key? :asset
-
       raise MissingArgument, 'Param :start_date is required' unless params.has_key? :start_date
       raise MissingArgument, 'Param :end_date is required' unless params.has_key? :end_date
 
-      vertical = params.delete :vertical
-      asset = params.delete :asset
+      device = params[:device]
+      device = @product['devices'].first if device.nil? and !@product['devices'].nil?
+      raise MissingArgument, 'Param :device is required' if device.nil?
 
       request "/v1.2/#{vertical}/#{market}/#{asset}/#{product_id}/ranks", params
     end
