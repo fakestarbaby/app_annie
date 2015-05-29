@@ -5,9 +5,11 @@ module AppAnnie
     attr_reader :info,
                 :product_id
 
-    def initialize(account, product_id)
+    def initialize(account, product)
       @info = account
-      @product_id = product_id
+      @product = product
+
+      @product_id = product['product_id']
     end
 
     def account_id

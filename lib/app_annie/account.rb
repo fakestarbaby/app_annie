@@ -16,9 +16,10 @@ module AppAnnie
       @raw['market']
     end
 
+    # @param [Hash] product
     # @return [AppAnnie::App]
-    def product_api(product_id)
-      AppAnnie::App.new raw, product_id
+    def product_api(product)
+      AppAnnie::App.new raw, product
     end
 
     def products(params = nil)
