@@ -28,6 +28,7 @@ module AppAnnie
     end
   end
 
+  class MissingArgument < Exception; end
   class Unauthorized < Exception; end
   class RateLimitExceeded < Exception; end
   class ServerError < Exception; end
