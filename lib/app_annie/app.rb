@@ -27,10 +27,16 @@ module AppAnnie
     end
 
     def ranks(params = nil)
+      raise MissingArgument, 'Param :vertical is required' unless params.has_key? :vertical
+      raise MissingArgument, 'Param :asset is required' unless params.has_key? :asset
+
       raise MissingArgument, 'Param :start_date is required' unless params.has_key? :start_date
       raise MissingArgument, 'Param :end_date is required' unless params.has_key? :end_date
 
-      request "/v1.2/apps/#{market}/app/#{product_id}/ranks", params
+      vertical = params.delete :vertical
+      asset = params.delete :asset
+
+      request "/v1.2/#{vertical}/#{market}/#{asset}/#{product_id}/ranks", params
     end
   end
 end
