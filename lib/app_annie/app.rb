@@ -4,7 +4,11 @@ module AppAnnie
 
     attr_reader :info,
                 :product_id,
-                :asset
+                :asset,
+                :account_id,
+                :vertical
+
+    attr_accessor :market
 
     def initialize(account, product)
       @info = account
@@ -12,19 +16,11 @@ module AppAnnie
 
       @asset = 'app'
 
+      @account_id = @info['account_id']
+      @market = @info['market']
+      @vertical = @info['vertical']
+
       @product_id = product['product_id']
-    end
-
-    def account_id
-      @info['account_id']
-    end
-
-    def vertical
-      @info['vertical']
-    end
-
-    def market
-      @info['market']
     end
 
     def iap_list(params = nil)
