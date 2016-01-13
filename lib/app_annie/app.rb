@@ -44,5 +44,9 @@ module AppAnnie
 
       request "/v1.2/#{vertical}/#{market}/#{asset}/#{product_id}/ranks", params
     end
+
+    def reviews(params = nil)
+      request "/v1.2/#{vertical}/#{market}/#{asset}/#{product_id}/reviews", params
+    end
   end
 end
